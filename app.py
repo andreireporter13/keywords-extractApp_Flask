@@ -14,6 +14,9 @@ from bs4 import BeautifulSoup
 from rake_nltk import Rake
 from fake_useragent import UserAgent
 
+#
+from time import sleep
+
 # Flask dependencies;
 from flask import Flask, render_template, request, flash, url_for
 
@@ -44,6 +47,7 @@ def set_headers():
 def extract_text(link):
 
     response = requests.get(link, headers=set_headers())
+    sleep(1.5)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content.decode('utf-8'), 'lxml')
 
