@@ -1,0 +1,66 @@
+body {
+    background-color: seagreen;
+    text-align: center;
+}
+
+body > img {
+    width: 250px;
+    margin: 50px 0px 30px 200px;
+}
+
+body form > p {
+    color: white;
+    font: Shanti;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0px;
+    margin-top: 100px;
+    
+}
+
+body form input {
+    font-size: 18px;
+    
+}
+
+input:nth-child(3) {
+    width: 900px;
+    height: 30px;
+    margin: 20px;
+}
+
+input:nth-child(5) {
+    width: 250px;
+    height: 40px;
+    margin: 20px;
+    color: white;
+    font-size: 1.2em;
+    background-color: blue;
+}
+
+h2 {
+    color: burlywood;
+    margin-top: -110px;
+    margin-left: 400px;
+
+}
+
+a:nth-child(2) {
+    color: burlywood;
+    margin-top: 20px;
+    margin-left: 100px;
+    font-size: 20px;
+
+}
+
+a:nth-child(4) {
+    color: burlywood;
+    margin-top: 20px;
+    margin-left: 550px;
+    font-size: 20px;
+
+}
+
+div.flash textarea {
+    font-size: 14px;
+}
