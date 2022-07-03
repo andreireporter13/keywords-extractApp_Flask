@@ -112,8 +112,3 @@ def index():
             return render_template('result.html', data_dict=data_dict)
     return render_template('index.html')
 
-    
-if __name__ == "__main__":
-    import warnings
-    warnings.warn("use 'python -m nltk', not 'python -m nltk.downloader'", DeprecationWarning)
-    app.run_server(debug=True)
