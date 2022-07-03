@@ -90,11 +90,10 @@ def extract_text(link):
 @app.route("/", methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        data = request.form['place_link']
+        data = request.form['place_link'].strip()
         if data.startswith('https://') or data.startswith('http://'):
 
             # create a Rake() instance;
-            new_text = extract_text(data)
             r = Rake()
             r.extract_keywords_from_text(extract_text(data))
 
@@ -109,6 +108,6 @@ def index():
             return render_template('result.html', data_dict=data_dict)
     return render_template('index.html')
 
-
+    
 if __name__ == '__main__':
     app.run(debug=False)
