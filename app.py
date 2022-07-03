@@ -19,6 +19,7 @@ from flask import Flask, render_template, request, flash, url_for
 
 
 app = Flask(__name__)
+app.secret_key = "cocolino_linxus_111221"
 app.config['SECRET_KEY'] = '$$$MY_SeCreT_KeY**##@##$##$____@#'
 
 
