@@ -108,8 +108,3 @@ def index():
             data_dict = {2: 'Invalid link'}
             return render_template('result.html', data_dict=data_dict)
     return render_template('index.html')
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
