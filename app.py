@@ -1,6 +1,6 @@
-# My new (and first) Flask app: SEO_keyword_extract - v1.0;
+# My new (and first) Flask app: SEO_keyword_extract - version 1.5;
 #
-# New scraper idea - scrape keywords from blogs;
+# New scraper (Flask) idea - scrape keywords from blogs;
 #
 # Author: Andrei C. Cojocaru
 # Github: https://github.com/andreireporter13
@@ -22,15 +22,14 @@ from flask import Flask, render_template, request, flash, url_for
 
 
 app = Flask(__name__)
-app.secret_key = "cocolino_linxus_111221"
-app.config['SECRET_KEY'] = '$$$MY_SeCreT_KeY**##@##$##$____@#'
+app.secret_key = "cocolin@_linxus_111221_#1101"
 
 
 #--------------------------------------------> functions for extract text <-------------------------------------------------
 def set_headers():
 
     """ 
-    This function is about setting headers for new requests. Is import step to scraping!
+    This function is about setting headers for new requests. Is important step to scraping!
     """
     user_agent = UserAgent() # after set a random fake_useragent;
 
@@ -46,44 +45,69 @@ def set_headers():
 
 def extract_text(link):
 
+    """ 
+    This function extract text from link and return all text with h1, h2, h3 and p elements;
+    """
+
     response = requests.get(link, headers=set_headers())
     sleep(1.5)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content.decode('utf-8'), 'lxml')
 
+        # concatenate text here...
+        concat_text = ''
+
         # try find h1;
         try:
             h1 = soup.find('h1').text
+
+            if h1: 
+                concat_text += h1 + '\n'
+
         except:
-            h1 = ''
-        
-        # try to find p;
-        try:
-            p_elements = soup.find_all('p')
-        except:
-            p_elements = ''
-        
+            h1 = ''       
+
         # try to find h2;
         try:
-            h2 = soup.find('h2').text
+            h2 = soup.find_all('h2')
+
+            # if h2 exist in the blog post;
+            if h2:
+                for elem_h2 in h2:
+                    concat_text += elem_h2.text + '\n'
+
         except:
             h2 = ''
 
+
         # try to find h3;
         try:
-            h3 = soup.find('h2').text
+            h3 = soup.find_all('h3')
+
+            # if h3 exist in the blog post;
+            if h3:               
+                for elem_h3 in h3: 
+                    concat_text += elem_h3.text + '\n'
+
         except:
             h3 = ''
-        
-        # Concatenate all elements;
-        new_text = ''
-        for p in p_elements:
-            new_text += p.text + '\n'
 
-        concat_text = h1 + '\n' + h2 + '\n' + h3 + '\n' + new_text
+        # try to find p;
+        try:
+            p_elements = soup.find_all('p')
+
+            # Concatenate all elements;
+            if p_elements:
+                for p in p_elements:
+                    concat_text += p.text + '\n'
+
+        except:
+            p_elements = ''
+
 
         return concat_text
-    
+
+
     else: 
         return 'We have not acces to this site!!!'
 
@@ -97,18 +121,22 @@ def index():
         data = request.form['place_link'].strip()
         if data.startswith('https://') or data.startswith('http://'):
 
-            # create a Rake() instance;
+            # create r instance of class Rake();
             r = Rake()
             r.extract_keywords_from_text(extract_text(data))
 
+            # return data in dict to html;
             data_dict= {}
             for rating, keywords in r.get_ranked_phrases_with_scores():
                 if rating > 10:
-                    data_dict.update({rating: keywords})
+                    data_dict.update({round(rating, 1): keywords})
                     
             return render_template('result.html', data_dict=data_dict)
         else:
-            data_dict = {2: 'Invalid link'}
+            data_dict = {'0x0': 'Invalid link'}
             return render_template('result.html', data_dict=data_dict)
     return render_template('index.html')
 
+
+if __name__ == '__main__':
+    app.run(debug=True)
